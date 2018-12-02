@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import React, { Component } from 'react';
 import {
   Table,
@@ -11,6 +13,7 @@ import {
 import $ from 'jquery'
 import { observable, action, computed} from 'mobx';
 import { observer } from 'mobx-react';
+import firebase from 'firebase';
 import './App.css';
 
 class StudentTable extends Component {
@@ -37,16 +40,17 @@ class StudentTable extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {this.props.studentData.map(student => 
-            <Table.Row key={student.id}>
-              <Table.Cell>{student.name}</Table.Cell>
-              <Table.Cell>{student.course}</Table.Cell>
-              <Table.Cell>{student.grade}</Table.Cell>
+          { Object.keys(this.props.studentData).map(index => 
+            <Table.Row key={this.props.studentData[index].entry_id}>
+              <Table.Cell>{this.props.studentData[index].name}</Table.Cell>
+              <Table.Cell>{this.props.studentData[index].course}</Table.Cell>
+              <Table.Cell>{this.props.studentData[index].grade}</Table.Cell>
               <Table.Cell>
-                <Button number={student.id} onClick={this.deleteBtnHandler} negative>Delete</Button>
+                <Button number={index} onClick={this.deleteBtnHandler} negative>Delete</Button>
               </Table.Cell>
             </Table.Row>
-          )}
+            )
+          }
         </Table.Body>
       </Table>
     )
@@ -159,81 +163,8 @@ class App extends Component {
     this.addStudentToServer = this.addStudentToServer.bind(this);
     this.deleteStudentFromServer = this.deleteStudentFromServer.bind(this);
 
-    this.loadServerData();
-  }
-
-  @observable
-  studentData = [];
-
-  @computed
-  get avgGrade() {
-    let sum = 0;
-    if (this.studentData.length === 0){
-      return 0;
-    }
-
-    for (let i = 0; i < this.studentData.length; i++){
-      sum += this.studentData[i].grade;
-    }
-    return Math.round(sum / this.studentData.length);
-  };
-
-  @action
-  loadServerData() {
-    $.ajax({
-      method: 'POST',
-      url: 'http://s-apis.learningfuze.com/sgt/get',
-      dataType: 'json',
-      data: {
-            api_key: 'qwVaPAFkr2'
-      }
-    }).then(res => {
-      if (res.success){
-        this.studentData = res.data;
-      } else {
-        console.error(res.errors[0]);
-      }
-    })
-  }
-
-  @action
-  addStudentToServer(name, course, grade) {
-    $.ajax({
-      method: 'POST',
-      url: 'http://s-apis.learningfuze.com/sgt/create',
-      dataType: 'json',
-      data: {
-            api_key: 'qwVaPAFkr2',
-            name: name,
-            course: course,
-            grade: grade,
-      }
-    }).then(res => {
-      if (res.success){
-        this.loadServerData();
-      } else {
-        console.error(res.errors[0]);
-      }
-    })
-  }
-
-  @action
-  deleteStudentFromServer(id){
-    $.ajax({
-      method: 'POST',
-      url: 'http://s-apis.learningfuze.com/sgt/delete',
-      dataType: 'json',
-      data: {
-            api_key: 'qwVaPAFkr2',
-            student_id: id
-      }
-    }).then(res => {
-      if (res.success){
-        this.loadServerData();
-      } else {
-        console.error(res.errors[0]);
-      }
-    })
+    this.initializeFirebaseDB();
+    this.loadServerData();    
   }
 
   @observer
@@ -258,6 +189,63 @@ class App extends Component {
         </Grid>
       </Container>
     );
+  }
+
+  @observable
+  studentData = {};
+
+  initializeFirebaseDB() {
+    let fb = firebase.initializeApp({
+      apiKey: process.env.REACT_APP_API_KEY,
+      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+      databaseURL: process.env.REACT_APP_DATABASE_URL,
+      projectId: process.env.REACT_APP_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
+    });
+
+    this.db = fb.database();
+  }
+
+  @computed
+  get avgGrade() {
+    let sum = 0;
+
+    if (Object.keys(this.studentData).length === 0) return sum;
+
+    for (let key in this.studentData){
+      sum += Number(this.studentData[key].grade); 
+    }
+
+    return Math.round(sum / Object.keys(this.studentData).length);
+  };
+
+  @action
+  loadServerData() {
+    let stdref = this.db.ref('/students/');
+    stdref.on('value', snapshot => {
+      if (snapshot.val()){
+        this.studentData = snapshot.val();
+      }
+    });
+  }
+
+  @action
+  addStudentToServer(name, course, grade) {
+    let stdref = this.db.ref('/students/');
+    let key = stdref.push().key;
+    stdref.child(key).set({
+      course: course,
+      name: name,
+      grade: grade,
+      entry_id: key
+    })
+  }
+
+  @action
+  deleteStudentFromServer(entry_id){
+    let stdref = this.db.ref('/students/');
+    stdref.child(entry_id).remove();
   }
 }
 
