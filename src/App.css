@@ -1,0 +1,14 @@
+.HeaderContainer {
+  height: 15vh;
+}
+
+.Header {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.rightBanner {
+  position: fixed;
+  width: 15%;
+}
