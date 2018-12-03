@@ -10,7 +10,6 @@ import {
   Grid,
   Header
 } from 'semantic-ui-react';
-import $ from 'jquery'
 import { observable, action, computed} from 'mobx';
 import { observer } from 'mobx-react';
 import firebase from 'firebase';
@@ -101,15 +100,15 @@ class StudentTable extends Component {
                     <Form>
                       <Form.Field>
                         <label>Name</label>
-                        <input placeholder='Student Name' name='name' value={this.updateData.name} onChange={this.handleChange}/>
+                        <input value={this.updateData.name} onChange={this.handleChange}/>
                       </Form.Field>
                       <Form.Field>
                         <label>Course</label>
-                        <input placeholder='Student Course' name='course' value={this.updateData.course} onChange={this.handleChange}/>
+                        <input value={this.updateData.course} onChange={this.handleChange}/>
                       </Form.Field>
                       <Form.Field>
                         <label>Grade</label>
-                        <input placeholder='Student Grade' name='grade' value={this.updateData.grade} onChange={this.handleChange}/>
+                        <input value={this.updateData.grade} onChange={this.handleChange}/>
                       </Form.Field>
                     </Form>
                   </Modal.Content>
