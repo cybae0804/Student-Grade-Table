@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   Table,
   Container,
-  Divider,
+  Modal,
   Form,
   Button,
   Grid,
@@ -21,10 +21,55 @@ class StudentTable extends Component {
     super(props);
 
     this.deleteBtnHandler = this.deleteBtnHandler.bind(this);
+    this.updateServerData = this.updateServerData.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  @observable 
+  modalOpen = false;
+
+  @observable
+  updateData = {
+    name: '',
+    course: '',
+    grade: '',
+    entry_id: ''
+  }
+
+  @action
+  openModal() {
+    this.modalOpen = true;
+    this.updateData.name = this.props.studentData[event.target.getAttribute('entry_id')].name;
+    this.updateData.course = this.props.studentData[event.target.getAttribute('entry_id')].course;
+    this.updateData.grade = this.props.studentData[event.target.getAttribute('entry_id')].grade;
+    this.updateData.entry_id = this.props.studentData[event.target.getAttribute('entry_id')].entry_id;
+  }
+
+  @action
+  closeModal() {
+    this.modalOpen = false;
+  } 
+
   deleteBtnHandler() {
-    this.props.clickHandlers.delete(event.target.getAttribute('number'));
+    this.props.clickHandlers.delete(event.target.getAttribute('entry_id'));
+  }
+
+  updateServerData() {
+    this.props.clickHandlers.update(
+      this.updateData.entry_id, 
+      this.updateData.name, 
+      this.updateData.course, 
+      this.updateData.grade
+    );
+
+    this.closeModal();
+  }
+
+  @action
+  handleChange() {
+    this.updateData[event.target.name] = event.target.value;
   }
 
   @observer
@@ -40,16 +85,42 @@ class StudentTable extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          { Object.keys(this.props.studentData).map(index => 
-            <Table.Row key={this.props.studentData[index].entry_id}>
-              <Table.Cell>{this.props.studentData[index].name}</Table.Cell>
-              <Table.Cell>{this.props.studentData[index].course}</Table.Cell>
-              <Table.Cell>{this.props.studentData[index].grade}</Table.Cell>
+          { 
+            Object.keys(this.props.studentData).map(entry_id => 
+            <Table.Row key={this.props.studentData[entry_id].entry_id}>
+              <Table.Cell>{this.props.studentData[entry_id].name}</Table.Cell>
+              <Table.Cell>{this.props.studentData[entry_id].course}</Table.Cell>
+              <Table.Cell>{this.props.studentData[entry_id].grade}</Table.Cell>
               <Table.Cell>
-                <Button number={index} onClick={this.deleteBtnHandler} negative>Delete</Button>
+                <Button onClick={this.openModal} entry_id={entry_id}>Update</Button>
+                <Modal open={this.modalOpen} onClose={this.closeModal}>
+                  <Header>
+                    Update Student Data
+                  </Header>
+                  <Modal.Content>
+                    <Form>
+                      <Form.Field>
+                        <label>Name</label>
+                        <input placeholder='Student Name' name='name' value={this.updateData.name} onChange={this.handleChange}/>
+                      </Form.Field>
+                      <Form.Field>
+                        <label>Course</label>
+                        <input placeholder='Student Course' name='course' value={this.updateData.course} onChange={this.handleChange}/>
+                      </Form.Field>
+                      <Form.Field>
+                        <label>Grade</label>
+                        <input placeholder='Student Grade' name='grade' value={this.updateData.grade} onChange={this.handleChange}/>
+                      </Form.Field>
+                    </Form>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button onClick={this.closeModal}>Cancel</Button>
+                    <Button onClick={this.updateServerData} primary>Submit</Button>
+                  </Modal.Actions>
+                </Modal>
+                <Button entry_id={entry_id} onClick={this.deleteBtnHandler} negative>Delete</Button>
               </Table.Cell>
-            </Table.Row>
-            )
+            </Table.Row>)
           }
         </Table.Body>
       </Table>
@@ -134,11 +205,8 @@ class Title extends Component {
     return (
       <div className='HeaderContainer'>
         <Grid className='Header'>
-          <Grid.Row columns={3}>
-            <Grid.Column width={3}>
-              <Button onClick={this.props.clickHandlers.server}>Reload Data</Button>
-            </Grid.Column>
-            <Grid.Column width={10}>
+          <Grid.Row columns={2}>
+            <Grid.Column width={13}>
               <Header as='h1' className='Title' textAlign='center'>
                 Student Grade Table
               </Header>
@@ -162,6 +230,7 @@ class App extends Component {
     this.loadServerData = this.loadServerData.bind(this);
     this.addStudentToServer = this.addStudentToServer.bind(this);
     this.deleteStudentFromServer = this.deleteStudentFromServer.bind(this);
+    this.updateServerData = this.updateServerData.bind(this);
 
     this.initializeFirebaseDB();
     this.loadServerData();    
@@ -175,7 +244,12 @@ class App extends Component {
         <Grid>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
-              <StudentTable studentData = {this.studentData} clickHandlers = {{delete: this.deleteStudentFromServer}}/>
+              <StudentTable studentData = {this.studentData} clickHandlers = {
+                {
+                  delete: this.deleteStudentFromServer,
+                  update: this.updateServerData
+                }
+              }/>
             </Grid.Column>
             <Grid.Column width={4}>
               <AddStudent clickHandlers = {
@@ -230,7 +304,6 @@ class App extends Component {
     });
   }
 
-  @action
   addStudentToServer(name, course, grade) {
     let stdref = this.db.ref('/students/');
     let key = stdref.push().key;
@@ -242,10 +315,18 @@ class App extends Component {
     })
   }
 
-  @action
   deleteStudentFromServer(entry_id){
     let stdref = this.db.ref('/students/');
     stdref.child(entry_id).remove();
+  }
+
+  updateServerData(entry_id, name, course, grade) {
+    let stdref = this.db.ref('/students/');
+    stdref.child(entry_id).update({
+      name: name,
+      course: course,
+      grade: grade
+    });
   }
 }
 
