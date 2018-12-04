@@ -34,7 +34,7 @@ class AddStudent extends Component {
       this.props.FBStore.addStudentToServer(
         this.inputFields.name, 
         this.inputFields.course, 
-        this.inputFields.grade
+        Number(this.inputFields.grade)
       );
 
       this.clearInputFields();
