@@ -8,8 +8,6 @@ import {
     Button,
     Header
 } from 'semantic-ui-react';
-import './FBStore.js';
-
 
 @inject('FBStore')
 class StudentTable extends Component {

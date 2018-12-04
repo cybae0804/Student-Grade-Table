@@ -6,8 +6,6 @@ import {
 } from 'semantic-ui-react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
-import './FBStore.js';
-
 
 @inject('FBStore')
 class AddStudent extends Component {

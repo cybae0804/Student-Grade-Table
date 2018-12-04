@@ -19,7 +19,7 @@ class FBStore {
     @computed
     get avgGrade() {
       let sum = 0;
-  
+
       if (Object.keys(this.studentData).length === 0) return sum;
   
       for (let key in this.studentData){
@@ -30,7 +30,7 @@ class FBStore {
     };
   
     initializeFirebaseDB() {
-      let fb = firebase.initializeApp({
+      const fb = firebase.initializeApp({
         apiKey: process.env.REACT_APP_API_KEY,
         authDomain: process.env.REACT_APP_AUTH_DOMAIN,
         databaseURL: process.env.REACT_APP_DATABASE_URL,
@@ -44,7 +44,7 @@ class FBStore {
 
     @action
     loadServerData() {
-      let stdref = this.db.ref('/students/');
+      const stdref = this.db.ref('/students/');
       stdref.on('value', snapshot => {
         if (snapshot.val()){
           this.studentData = snapshot.val();
@@ -53,8 +53,8 @@ class FBStore {
     }
   
     addStudentToServer(name, course, grade) {
-      let stdref = this.db.ref('/students/');
-      let key = stdref.push().key;
+      const stdref = this.db.ref('/students/');
+      const key = stdref.push().key;
       stdref.child(key).set({
         course: course,
         name: name,
@@ -64,12 +64,12 @@ class FBStore {
     }
   
     deleteStudentFromServer(entry_id){
-      let stdref = this.db.ref('/students/');
+      const stdref = this.db.ref('/students/');
       stdref.child(entry_id).remove();
     }
   
     updateServerData(entry_id, name, course, grade) {
-      let stdref = this.db.ref('/students/');
+      const stdref = this.db.ref('/students/');
       stdref.child(entry_id).update({
         name: name,
         course: course,
