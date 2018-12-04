@@ -32,7 +32,7 @@ class StudentTable extends Component {
     }
   
     @action
-    openModal( event ) {
+    openModal() {
       this.modalOpen = true;
       this.updateData.name = this.props.studentData[event.target.getAttribute('entry_id')].name;
       this.updateData.course = this.props.studentData[event.target.getAttribute('entry_id')].course;
@@ -49,6 +49,7 @@ class StudentTable extends Component {
       this.props.clickHandlers.delete(event.target.getAttribute('entry_id'));
     }
   
+    @action
     updateServerData() {
       this.props.clickHandlers.update(
         this.updateData.entry_id, 
@@ -61,7 +62,7 @@ class StudentTable extends Component {
     }
   
     @action
-    handleChange( event ) {
+    handleChange(event) {
       this.updateData[event.target.name] = event.target.value;
     }
   
@@ -94,15 +95,15 @@ class StudentTable extends Component {
                       <Form>
                         <Form.Field>
                           <label>Name</label>
-                          <input value={this.updateData.name} onChange={this.handleChange}/>
+                          <input value={this.updateData.name} onChange={this.handleChange} name='name'/>
                         </Form.Field>
                         <Form.Field>
                           <label>Course</label>
-                          <input value={this.updateData.course} onChange={this.handleChange}/>
+                          <input value={this.updateData.course} onChange={this.handleChange} name='course'/>
                         </Form.Field>
                         <Form.Field>
                           <label>Grade</label>
-                          <input value={this.updateData.grade} onChange={this.handleChange}/>
+                          <input value={this.updateData.grade} onChange={this.handleChange} name='grade'/>
                         </Form.Field>
                       </Form>
                     </Modal.Content>
