@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observable, action, computed} from 'mobx';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import {
     Table,
     Modal,
@@ -8,7 +8,10 @@ import {
     Button,
     Header
 } from 'semantic-ui-react';
+import './FBStore.js';
 
+
+@inject('FBStore')
 class StudentTable extends Component {
     constructor(props) {
       super(props);
@@ -34,10 +37,10 @@ class StudentTable extends Component {
     @action
     openModal() {
       this.modalOpen = true;
-      this.updateData.name = this.props.studentData[event.target.getAttribute('entry_id')].name;
-      this.updateData.course = this.props.studentData[event.target.getAttribute('entry_id')].course;
-      this.updateData.grade = this.props.studentData[event.target.getAttribute('entry_id')].grade;
-      this.updateData.entry_id = this.props.studentData[event.target.getAttribute('entry_id')].entry_id;
+      this.updateData.name = this.props.FBStore.studentData[event.target.getAttribute('entry_id')].name;
+      this.updateData.course = this.props.FBStore.studentData[event.target.getAttribute('entry_id')].course;
+      this.updateData.grade = this.props.FBStore.studentData[event.target.getAttribute('entry_id')].grade;
+      this.updateData.entry_id = this.props.FBStore.studentData[event.target.getAttribute('entry_id')].entry_id;
     }
   
     @action
@@ -46,12 +49,12 @@ class StudentTable extends Component {
     } 
   
     deleteBtnHandler() {
-      this.props.clickHandlers.delete(event.target.getAttribute('entry_id'));
+      this.props.FBStore.deleteStudentFromServer(event.target.getAttribute('entry_id'));
     }
   
     @action
     updateServerData() {
-      this.props.clickHandlers.update(
+      this.props.FBStore.updateServerData(
         this.updateData.entry_id, 
         this.updateData.name, 
         this.updateData.course, 
@@ -80,11 +83,11 @@ class StudentTable extends Component {
           </Table.Header>
           <Table.Body>
             { 
-              Object.keys(this.props.studentData).map(entry_id => 
-              <Table.Row key={this.props.studentData[entry_id].entry_id}>
-                <Table.Cell>{this.props.studentData[entry_id].name}</Table.Cell>
-                <Table.Cell>{this.props.studentData[entry_id].course}</Table.Cell>
-                <Table.Cell>{this.props.studentData[entry_id].grade}</Table.Cell>
+              Object.keys(this.props.FBStore.studentData).map(entry_id => 
+              <Table.Row key={this.props.FBStore.studentData[entry_id].entry_id}>
+                <Table.Cell>{this.props.FBStore.studentData[entry_id].name}</Table.Cell>
+                <Table.Cell>{this.props.FBStore.studentData[entry_id].course}</Table.Cell>
+                <Table.Cell>{this.props.FBStore.studentData[entry_id].grade}</Table.Cell>
                 <Table.Cell collapsing>
                   <Button onClick={this.openModal} entry_id={entry_id}>Update</Button>
                   <Modal open={this.modalOpen} onClose={this.closeModal}>

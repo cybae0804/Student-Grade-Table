@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { observer, inject } from "mobx-react";
 import {
   Grid,
   Header
 } from 'semantic-ui-react';
+import './FBStore.js';
 
+
+@inject('FBStore')
 class Title extends Component {
 
     constructor(props) {
@@ -21,7 +25,7 @@ class Title extends Component {
                 </Header>
               </Grid.Column>
               <Grid.Column width={3}>
-                <Header className='averageGrade' textAlign='right'>Average: {this.props.average}</Header>
+                <Header className='averageGrade' textAlign='right'>Average: {this.props.FBStore.avgGrade}</Header>
               </Grid.Column>
             </Grid.Row>
           </Grid>

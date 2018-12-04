@@ -5,15 +5,18 @@ import {
   Header
 } from 'semantic-ui-react';
 import { observable, action, computed} from 'mobx';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
+import './FBStore.js';
 
+
+@inject('FBStore')
 class AddStudent extends Component {
     constructor(props) {
       super(props);
   
       this.clearBtnHandler = this.clearBtnHandler.bind(this);
-      this.handleChange = this.handleChange.bind(this);
       this.submitBtnHandler = this.submitBtnHandler.bind(this);
+      this.handleChange = this.handleChange.bind(this);
     }
   
     @observable
@@ -30,7 +33,12 @@ class AddStudent extends Component {
   
     @action
     submitBtnHandler() {
-      this.props.clickHandlers.add(this.inputFields.name, this.inputFields.course, this.inputFields.grade);
+      this.props.FBStore.addStudentToServer(
+        this.inputFields.name, 
+        this.inputFields.course, 
+        this.inputFields.grade
+      );
+
       this.clearInputFields();
     }
   
