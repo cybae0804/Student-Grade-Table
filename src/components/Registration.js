@@ -10,9 +10,9 @@ import {
 
 @inject('FBStore')
 class Registration extends Component {
+    
     constructor(props) {
         super(props);
-
     }
 
     @observer
