@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import FBStore from './FBStore.js';
+import FBStore from './stores/FBStore.js';
 import 'semantic-ui-css/semantic.min.css';
-import './index.css';
-import App from './App';
+import './assets/css/index.css';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 

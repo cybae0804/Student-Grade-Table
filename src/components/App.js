@@ -4,16 +4,17 @@ import {
   Grid,
 } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
-import StudentTable from './StudentTable.js';
-import AddStudent from './AddStudent.js';
+import StudentTable from './StudentTable';
+import AddStudent from './AddStudent';
+import Registration from './Registration'
 import Title from './Title.js'
-import './App.css';
+import '../assets/css/App.css';
 
 class App extends Component {
   @observer
   render() {
     return (
-        <Container className='ui container'>
+        <Container>
           <Title />
           <Grid>
             <Grid.Row columns={2}>
@@ -25,6 +26,7 @@ class App extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <Registration/>
         </Container>
     );
   }
