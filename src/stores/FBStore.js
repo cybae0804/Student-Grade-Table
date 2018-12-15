@@ -2,6 +2,7 @@ require('dotenv').config();
 import { observable, action, computed } from "mobx";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/auth';
 
 class FBStore {
     constructor () {
@@ -28,8 +29,12 @@ class FBStore {
       });
   
       this.db = fb.database();
+      this.auth = fb.auth();
     }
 
+    //
+    // DATABASE
+    //
     @action
     loadServerData() {
       const stdref = this.db.ref('/students/');
@@ -63,6 +68,32 @@ class FBStore {
         course: course,
         grade: grade
       });
+    }
+
+    //
+    // AUTH
+    //
+    registerUser = (email, password) => {
+      console.log( email, password)
+      this.auth.createUserWithEmailAndPassword(email, password).catch(error => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
+        console.error(errorMessage);
+      });
+    }
+
+    loginUser = (email, password) => {
+      this.auth.signInWithEmailAndPassword(email, password).catch(error => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        console.error(errorMessage);
+      });
+    }
+
+    loginState = () => {
+      return this.auth;
     }
 }
 

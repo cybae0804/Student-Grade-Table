@@ -26,13 +26,14 @@ class Registration extends Component {
     }
 
     @action
-    register = () => {
-        console.log(this.formInput.username, this.formInput.password);
+    registerBtnHandler = () => {
+        this.props.FBStore.registerUser(this.formInput.username, this.formInput.password);
     }
 
     @action
-    login = () => {
-        console.log(this.formInput.username, this.formInput.password);
+    loginBtnHandler = () => {
+        this.props.FBStore.loginUser(this.formInput.username, this.formInput.password);
+        console.log(this.loginState)
     }
 
     @observer
@@ -48,8 +49,8 @@ class Registration extends Component {
                     <label>Password</label>
                     <input name='password' type='password' value={this.formInput.password} onChange={this.handleChange}></input>
                 </Form.Field>
-                <Button onClick={this.register}>Register</Button>
-                <Button onClick={this.login}>Log In</Button>
+                <Button onClick={this.registerBtnHandler}>Register</Button>
+                <Button onClick={this.loginBtnHandler}>Log In</Button>
             </Form>
         );
     }
