@@ -36,7 +36,6 @@ class FBStore {
       stdref.on('value', snapshot => {
         if (snapshot.val()){
           this.studentData = snapshot.val();
-          console.log(snapshot)
         }
       });
     }
