@@ -100,6 +100,10 @@ class FBStore {
         console.error(`errorMessage: ${errorMessage}`);
       });
     }
+
+    signOut = () => {
+      this.auth.signOut();
+    }
 }
 
 export default FBStore;

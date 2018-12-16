@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
-import {
-    Header,
-    Form,
-    Button
-} from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
+
 
 @inject('FBStore')
 class Registration extends Component {
@@ -38,19 +35,42 @@ class Registration extends Component {
     @observer
     render() {
         return (
-            <Form>
-                <Header>Registration</Header>
-                <Form.Field width={4}>
-                    <label>Username</label>
-                    <input name='username' type='text' value={this.formInput.username} onChange={this.handleChange}></input>
-                </Form.Field>
-                <Form.Field width={4}>
-                    <label>Password</label>
-                    <input name='password' type='password' value={this.formInput.password} onChange={this.handleChange}></input>
-                </Form.Field>
-                <Button onClick={this.registerBtnHandler}>Register</Button>
-                <Button onClick={this.loginBtnHandler}>Log In</Button>
-            </Form>
+            <div className='login-form'>
+                <style>{`
+                body > div,
+                body > div > div,
+                body > div > div > div.login-form {
+                    height: 100%;
+                }
+                `}</style>
+                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 450 }}>
+                    <Header as='h2' textAlign='center'>
+                    Log-in to your account
+                    </Header>
+                    <Form size='large'>
+                    <Segment>
+                        <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' 
+                        value={this.formInput.username} onChange={this.handleChange} name='username'/>
+                        <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password'
+                        type='password' value={this.formInput.password} onChange={this.handleChange} name='password'/>
+                        <Grid>
+                            <Grid.Column width={8}>
+                                <Button color='black' fluid size='large' onClick={this.loginBtnHandler}>
+                                    Login
+                                </Button>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Button color='black' fluid size='large' onClick={this.registerBtnHandler}>
+                                    Register
+                                </Button>
+                            </Grid.Column>
+                        </Grid>
+                    </Segment>
+                    </Form>
+                </Grid.Column>
+                </Grid>
+            </div>
         );
     }
 }
