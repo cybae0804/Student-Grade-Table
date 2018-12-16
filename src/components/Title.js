@@ -1,53 +1,54 @@
-import React, { Component } from 'react';
-import { computed } from 'mobx';
-import { observer, inject } from "mobx-react";
+import React, { Component } from 'react'
+import { observable, action, computed} from 'mobx';
+import { observer, inject } from 'mobx-react';
 import {
-  Grid,
-  Header
-} from 'semantic-ui-react';
+  Dropdown,
+  Menu,
+} from 'semantic-ui-react'
 
 @inject('FBStore')
-class Title extends Component {
+class TopMenu extends Component {
 
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  // @computed
-  // get avgGrade() {
-  //   let sum = 0;
+    signOutHandler = () => {
+        this.props.FBStore.signOut();
+    }
 
-  //   if (Object.keys(this.props.FBStore.studentData).length === 0) return sum;
 
-  //   for (let key in this.props.FBStore.studentData){
-  //     sum += Number(this.props.FBStore.studentData[key].grade); 
-  //   }
+    @computed
+    get avgGrade() {
+        let sum = 0;
 
-  //   return Math.round(sum / Object.keys(this.props.FBStore.studentData).length);
-  // };
+        if (Object.keys(this.props.FBStore.studentData).length === 0) return sum;
 
-  @observer
-  render(){
-    return (
-      <div className='HeaderContainer'>
-        <Grid className='Header'>
-          <Grid.Row columns={3}>
-            <Grid.Column width={13}>
-              <Header as='h1' className='Title' textAlign='center'>
-                Student Grade Table
-              </Header>
-            </Grid.Column>
-            <Grid.Column width={3}>
-              {/* <Header className='averageGrade' textAlign='right'>Average: {
-                this.avgGrade
-                }
-              </Header> */}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
-    )
-  }
+        for (let key in this.props.FBStore.studentData){
+            sum += Number(this.props.FBStore.studentData[key].grade); 
+        }
+
+        return Math.round(sum / Object.keys(this.props.FBStore.studentData).length);
+    };
+
+    @observer
+    render() {
+        return (
+            <div className="topMenuContainer">
+                <Menu fixed='top' inverted>
+                    <Menu.Item header>
+                        <h2>Student Grade Table</h2>
+                    </Menu.Item>
+                    <Menu.Item>
+                        Average: {this.avgGrade}
+                    </Menu.Item>
+                    <Menu.Item position={'right'} onClick={this.signOutHandler}>
+                        Sign Out
+                    </Menu.Item>
+                </Menu>
+            </div>
+        );
+    }
 }
 
-export default Title;
+export default TopMenu;

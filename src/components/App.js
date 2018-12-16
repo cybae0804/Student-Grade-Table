@@ -9,7 +9,6 @@ import StudentTable from './StudentTable';
 import AddStudent from './AddStudent';
 import Registration from './Registration';
 import Title from './Title.js';
-import Title2 from './Title2.js';
 import '../assets/css/App.css';
 
 @inject ('FBStore')
@@ -27,8 +26,7 @@ class App extends Component {
   render() {
     const loggedin = (
       <Container>
-        <Title2 />
-        {/* <Title /> */}
+        <Title />
         <Grid>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
