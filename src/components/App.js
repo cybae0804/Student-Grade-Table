@@ -1,41 +1,34 @@
 import React, { Component } from 'react';
 import {
   Container,
-  Grid,
+  Grid
 } from 'semantic-ui-react';
 import { observable } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import StudentTable from './StudentTable';
 import AddStudent from './AddStudent';
-import Registration from './Registration'
-import Title from './Title.js'
+import Registration from './Registration';
+import Title from './Title.js';
+import Title2 from './Title2.js';
 import '../assets/css/App.css';
 
-// @inject ('FBStore')
+@inject ('FBStore')
 class App extends Component {
-  // constructor(props){
-  //   super(props);
-  // }
+  constructor(props){
+    super(props);
+  }
 
-  // @observable
-  // loginState(){
-  //   this.props.FBStore.loginState().onAuthStateChanged(user => {
-  //     if (user){
-  //       return user.currentUser.user;
-  //     } else {
-  //       return false;
-  //     }
-  //   })
-
-  //   return false;
-  // }
+  @observable
+  loginState = () =>{
+    return this.props.FBStore.user;
+  }
 
   @observer
   render() {
-    console.log('hello')
     const loggedin = (
       <Container>
-        <Title />
+        <Title2 />
+        {/* <Title /> */}
         <Grid>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
@@ -49,7 +42,7 @@ class App extends Component {
       </Container>
     );
     
-    return true ? loggedin : <Registration/>
+    return this.loginState() ? loggedin : <Registration />;
   }
 }
 

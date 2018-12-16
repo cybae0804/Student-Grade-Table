@@ -33,7 +33,6 @@ class Registration extends Component {
     @action
     loginBtnHandler = () => {
         this.props.FBStore.loginUser(this.formInput.username, this.formInput.password);
-        console.log(this.loginState)
     }
 
     @observer

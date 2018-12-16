@@ -13,10 +13,18 @@ class FBStore {
 
         this.initializeFirebaseDB();
         this.loadServerData();
+
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) this.user = user;
+          else this.user = null;
+        }) ;
     }
 
     @observable
     studentData = {};
+
+    @observable 
+    user = null;
   
     initializeFirebaseDB() {
       const fb = firebase.initializeApp({
@@ -74,26 +82,23 @@ class FBStore {
     // AUTH
     //
     registerUser = (email, password) => {
-      console.log( email, password)
       this.auth.createUserWithEmailAndPassword(email, password).catch(error => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        const errorCode = error.code;
+        const errorMessage = error.message;
         
-        console.error(errorMessage);
+        console.error(`errorCode: ${errorCode}`);
+        console.error(`errorMessage: ${errorMessage}`);
       });
     }
 
     loginUser = (email, password) => {
       this.auth.signInWithEmailAndPassword(email, password).catch(error => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-        console.error(errorMessage);
+        console.error(`errorCode: ${errorCode}`);
+        console.error(`errorMessage: ${errorMessage}`);
       });
-    }
-
-    loginState = () => {
-      return this.auth;
     }
 }
 
