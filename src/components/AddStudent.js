@@ -25,19 +25,19 @@ class AddStudent extends Component {
   @observable
   nameError = {
     error: false,
-    msg: ''
+    msg: null
   }
 
   @observable
   courseError = {
     error: false,
-    msg: ''
+    msg: null
   }
 
   @observable
   gradeError = {
     error: false,
-    msg: ''
+    msg: null
   }
 
   @action
@@ -47,31 +47,7 @@ class AddStudent extends Component {
 
   @action
   submitBtnHandler = () => {
-    if (this.inputFields.name === ''){
-      this.nameError.error = true;
-      this.nameError.msg = "Name cannot be empty";
-    } else {
-      this.nameError.error = false;
-    }
-    
-    if (this.inputFields.course === ''){
-      this.courseError.error = true;
-      this.courseError.msg = "Course cannot be empty";
-    } else {
-      this.courseError.error = false;
-    }
-    
-    if (this.inputFields.grade === ''){
-      this.gradeError.error = true;
-      this.gradeError.msg = "Grade cannot be empty";
-    } else if (isNaN(Number(this.inputFields.grade))){
-      this.gradeError.error = true;
-      this.gradeError.msg = "Grade has to be a number";
-    } else {
-      this.gradeError.error = false;
-    }
-
-    if (!this.gradeError.error && !this.nameError.error && !this.courseError.error){
+    if (this.checkInput()){
       this.props.FBStore.addStudentToServer(
         this.inputFields.name, 
         this.inputFields.course, 
@@ -83,6 +59,42 @@ class AddStudent extends Component {
   }
 
   @action
+  checkInput = () => {
+    if (this.inputFields.name === ''){
+      this.nameError.error = true;
+      this.nameError.msg = "Name cannot be empty";
+    } else {
+      this.nameError.error = false;
+      this.nameError.msg = null;
+    }
+    
+    if (this.inputFields.course === ''){
+      this.courseError.error = true;
+      this.courseError.msg = "Course cannot be empty";
+    } else {
+      this.courseError.error = false;
+      this.courseError.msg = null;
+    }
+    
+    if (this.inputFields.grade === ''){
+      this.gradeError.error = true;
+      this.gradeError.msg = "Grade cannot be empty";
+    } else if (isNaN(Number(this.inputFields.grade))){
+      this.gradeError.error = true;
+      this.gradeError.msg = "Grade has to be a number";
+    } else {
+      this.gradeError.error = false;
+      this.gradeError.msg = null;
+    }
+
+    if (!this.gradeError.error && !this.nameError.error && !this.courseError.error){
+      return true; // passes the input check
+    } else {
+      return false; //fails the input check
+    }
+  }
+
+  @action
   clearInputFields() {
     this.inputFields = {
       name: '',
@@ -90,9 +102,17 @@ class AddStudent extends Component {
       grade: ''
     };
 
+    this.clearErrorFlags();
+  }
+
+  @action
+  clearErrorFlags() {
     this.nameError.error = false;
+    this.nameError.msg = null;
     this.gradeError.error = false;
+    this.gradeError.msg = null;
     this.courseError.error = false;
+    this.courseError.msg = null;
   }
 
   @action
@@ -104,22 +124,22 @@ class AddStudent extends Component {
   render() {
     return (
       <div className='rightBanner'>
-        <Form>
+        <Form error>
           <Header>Add Student</Header>
           <Form.Field required>
             <label>Name</label>
             <input placeholder='Student Name' name='name' value={this.inputFields.name} onChange={this.handleChange}/>
-            <Message error content={this.nameError.msg}></Message>
+            <Message error content={this.nameError.msg}/>
           </Form.Field>
           <Form.Field required>
             <label>Course</label>
             <input placeholder='Student Course' name='course' value={this.inputFields.course} onChange={this.handleChange}/>
-            <Message error content={this.courseError.msg}></Message>
+            <Message error content={this.courseError.msg}/>
           </Form.Field>
-          <Form.Field required error>
+          <Form.Field required>
             <label>Grade</label>
             <input placeholder='Student Grade' name='grade' value={this.inputFields.grade} onChange={this.handleChange}/>
-            <Message error content={this.gradeError.msg}></Message>
+            <Message error content={this.gradeError.msg}/>
           </Form.Field>
           <Button primary onClick={this.submitBtnHandler}>Submit</Button>
           <Button secondary onClick={this.clearBtnHandler}>Clear</Button>
