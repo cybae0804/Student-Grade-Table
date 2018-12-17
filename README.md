@@ -11,12 +11,12 @@ Sorting by column
 
 User registration/login
 
-## To Do
 QoL: Delete row confirmation (modal)
 
-QoL: User authentication error notification
-
 QoL: Input verification
+
+## To Do
+QoL: User authentication error notification
 
 Different (multiple) tables for different accounts
 
