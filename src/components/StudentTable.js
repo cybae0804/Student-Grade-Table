@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
-import {
-    Table,
-    Button,
-} from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import UpdateButton from './UpdateButton';
+import DeleteButton from './DeleteButton';
 
 @inject('FBStore')
 class StudentTable extends Component {
@@ -44,10 +42,6 @@ class StudentTable extends Component {
     }
   }
 
-  deleteBtnHandler = () => {
-    this.props.FBStore.deleteStudentFromServer(event.target.getAttribute('entry_id'));
-  }
-
   @observer
   render() {
     const {column, direction} = this.sortState;
@@ -83,7 +77,7 @@ class StudentTable extends Component {
               <Table.Cell>{entry.grade}</Table.Cell>
               <Table.Cell collapsing>
                 <UpdateButton entry_id={entry.entry_id}/>
-                <Button entry_id={entry.entry_id} onClick={this.deleteBtnHandler} negative>Delete</Button>
+                <DeleteButton entry_id={entry.entry_id}/>
               </Table.Cell>
             </Table.Row>)
           }
