@@ -3,28 +3,15 @@ import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
 import {
     Table,
-    Modal,
-    Form,
     Button,
-    Header
 } from 'semantic-ui-react';
+import UpdateButton from './UpdateButton';
 
 @inject('FBStore')
 class StudentTable extends Component {
   
   constructor(props) {
     super(props);
-  }
-
-  @observable 
-  modalOpen = false;
-
-  @observable
-  updateData = {
-    name: '',
-    course: '',
-    grade: '',
-    entry_id: ''
   }
 
   @computed
@@ -57,40 +44,8 @@ class StudentTable extends Component {
     }
   }
 
-  @action
-  openModal = () => {
-    this.modalOpen = true;
-    const row = this.props.FBStore.studentData[event.target.getAttribute('entry_id')];
-    this.updateData.name = row.name;
-    this.updateData.course = row.course;
-    this.updateData.grade = row.grade;
-    this.updateData.entry_id = row.entry_id;
-  }
-
-  @action
-  closeModal = () => {
-    this.modalOpen = false;
-  } 
-
   deleteBtnHandler = () => {
     this.props.FBStore.deleteStudentFromServer(event.target.getAttribute('entry_id'));
-  }
-
-  @action
-  updateServerData = () => {
-    this.props.FBStore.updateServerData(
-      this.updateData.entry_id, 
-      this.updateData.name, 
-      this.updateData.course, 
-      this.updateData.grade
-    );
-
-    this.closeModal();
-  }
-
-  @action
-  handleChange = event => {
-    this.updateData[event.target.name] = event.target.value;
   }
 
   @observer
@@ -127,32 +82,7 @@ class StudentTable extends Component {
               <Table.Cell>{entry.course}</Table.Cell>
               <Table.Cell>{entry.grade}</Table.Cell>
               <Table.Cell collapsing>
-                <Button onClick={this.openModal} entry_id={entry.entry_id}>Update</Button>
-                <Modal open={this.modalOpen} onClose={this.closeModal}>
-                  <Header>
-                    Update Student Data
-                  </Header>
-                  <Modal.Content>
-                    <Form>
-                      <Form.Field>
-                        <label>Name</label>
-                        <input value={this.updateData.name} onChange={this.handleChange} name='name'/>
-                      </Form.Field>
-                      <Form.Field>
-                        <label>Course</label>
-                        <input value={this.updateData.course} onChange={this.handleChange} name='course'/>
-                      </Form.Field>
-                      <Form.Field>
-                        <label>Grade</label>
-                        <input value={this.updateData.grade} onChange={this.handleChange} name='grade'/>
-                      </Form.Field>
-                    </Form>
-                  </Modal.Content>
-                  <Modal.Actions>
-                    <Button onClick={this.closeModal}>Cancel</Button>
-                    <Button onClick={this.updateServerData} primary>Submit</Button>
-                  </Modal.Actions>
-                </Modal>
+                <UpdateButton entry_id={entry.entry_id}/>
                 <Button entry_id={entry.entry_id} onClick={this.deleteBtnHandler} negative>Delete</Button>
               </Table.Cell>
             </Table.Row>)
