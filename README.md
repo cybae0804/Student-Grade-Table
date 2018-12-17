@@ -9,12 +9,18 @@ CRUD
 
 Sorting by column
 
-## To Do
 User registration/login
 
-React Routing
+## To Do
+QoL: Delete row confirmation (modal)
 
-Input verification
+QoL: User authentication error notification
+
+QoL: Input verification
+
+Different (multiple) tables for different accounts
+
+Responsive Design
 
 ## Libraries Used
 React, Semantic-UI-React, Mobx, Firebase
