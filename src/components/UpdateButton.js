@@ -71,7 +71,7 @@ class UpdateButton extends Component {
                 this.updateData.entry_id, 
                 this.updateData.name, 
                 this.updateData.course, 
-                this.updateData.grade
+                Number(this.updateData.grade)
             );
       
             this.closeModal();
@@ -102,6 +102,12 @@ class UpdateButton extends Component {
         } else if (isNaN(Number(this.updateData.grade))){
             this.gradeError.error = true;
             this.gradeError.msg = "Grade has to be a number";
+        } else if (Number(this.updateData.grade > 100)){
+            this.gradeError.error = true;
+            this.gradeError.msg = "Grade cannot be over 100";
+        } else if (Number(this.updateData.grade < 0)){
+            this.gradeError.error = true;
+            this.gradeError.msg = "Grade cannot be below 0";
         } else {
             this.gradeError.error = false;
             this.gradeError.msg = null;
