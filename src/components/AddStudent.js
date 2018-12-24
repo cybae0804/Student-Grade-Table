@@ -82,10 +82,10 @@ class AddStudent extends Component {
     } else if (isNaN(Number(this.inputFields.grade))){
       this.gradeError.error = true;
       this.gradeError.msg = "Grade has to be a number";
-    } else if (Number(this.updateData.grade > 100)){
+    } else if (Number(this.inputFields.grade > 100)){
       this.gradeError.error = true;
       this.gradeError.msg = "Grade cannot be over 100";
-    } else if (Number(this.updateData.grade < 0)){
+    } else if (Number(this.inputFields.grade < 0)){
       this.gradeError.error = true;
       this.gradeError.msg = "Grade cannot be below 0";
     } else {

@@ -15,8 +15,13 @@ class FBStore {
         this.loadServerData();
 
         firebase.auth().onAuthStateChanged(user => {
-          if (user) this.user = user;
-          else this.user = null;
+          if (user){
+            this.user = user;
+            this.loadServerData(this.user.uid);
+          } else {
+            this.user = null;
+            this.studentData = {};
+          }
         }) ;
     }
 
@@ -44,8 +49,8 @@ class FBStore {
     // DATABASE
     //
     @action
-    loadServerData() {
-      const stdref = this.db.ref('/students/');
+    loadServerData(uid) {
+      const stdref = this.db.ref(`${uid}/students/`);
       stdref.on('value', snapshot => {
         if (snapshot.val()){
           this.studentData = snapshot.val();
@@ -54,7 +59,7 @@ class FBStore {
     }
   
     addStudentToServer(name, course, grade) {
-      const stdref = this.db.ref('/students/');
+      const stdref = this.db.ref(`/${this.user.uid}/students/`);
       const key = stdref.push().key;
       stdref.child(key).set({
         course: course,
@@ -65,12 +70,12 @@ class FBStore {
     }
   
     deleteStudentFromServer(entry_id){
-      const stdref = this.db.ref('/students/');
+      const stdref = this.db.ref(`/${this.user.uid}/students/`);
       stdref.child(entry_id).remove();
     }
   
     updateServerData(entry_id, name, course, grade) {
-      const stdref = this.db.ref('/students/');
+      const stdref = this.db.ref(`/${this.user.uid}/students/`);
       stdref.child(entry_id).update({
         name: name,
         course: course,
