@@ -3,7 +3,8 @@ import {
   Form,
   Button,
   Header,
-  Message
+  Message,
+  Responsive
 } from 'semantic-ui-react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -123,7 +124,6 @@ class AddStudent extends Component {
   @observer
   render() {
     return (
-      <div className='rightBanner'>
         <Form error>
           <Header>Add Student</Header>
           <Form.Field required>
@@ -144,8 +144,7 @@ class AddStudent extends Component {
           <Button primary onClick={this.submitBtnHandler}>Submit</Button>
           <Button secondary onClick={this.clearBtnHandler}>Clear</Button>
         </Form>
-      </div>
-    )
+    );
   }
 }
 

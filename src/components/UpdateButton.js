@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import {
-    Form, Modal, Header, Button, Message
+    Form, Modal, Header, Button, Message, Responsive, Icon
 } from 'semantic-ui-react';
 
 @inject('FBStore')
@@ -42,10 +42,10 @@ class UpdateButton extends Component {
     }
 
     @action
-    openModal = () => {
+    openModal = event => {
         this.modalOpen = true;
 
-        const row = this.props.FBStore.studentData[event.target.getAttribute('entry_id')];
+        const row = this.props.FBStore.studentData[event.currentTarget.getAttribute('entry_id')];
 
         this.updateData.name = row.name;
         this.updateData.course = row.course;
@@ -61,7 +61,7 @@ class UpdateButton extends Component {
 
     @action
     handleChange = event => {
-        this.updateData[event.target.name] = event.target.value;
+        this.updateData[event.currentTarget.name] = event.currentTarget.value;
     }
 
     @action
@@ -124,12 +124,12 @@ class UpdateButton extends Component {
         this.courseError.msg = null;
     }
   
-    
     @observer
     render() {
         return (
             <span>
-                <Button onClick={this.openModal} entry_id={this.props.entry_id}>Update</Button>
+                <Responsive as={Button} minWidth={992} entry_id={this.props.entry_id} onClick={this.openModal} content='Update'/>
+                <Responsive as={Button} maxWidth={991} entry_id={this.props.entry_id} onClick={this.openModal} icon='edit'/>
                 <Modal open={this.modalOpen} onClose={this.closeModal}>
                     <Header>
                         Update Student Data

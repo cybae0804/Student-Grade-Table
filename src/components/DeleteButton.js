@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import {
-    Modal, Header, Button
+    Modal, Header, Button, Responsive
 } from 'semantic-ui-react';
 
 @inject('FBStore')
@@ -33,7 +33,22 @@ class DeleteButton extends Component {
     render() {
         return (
             <span>
-                <Button onClick={this.openModal} entry_id={this.props.entry_id} negative>Delete</Button>
+                <Responsive 
+                    as={Button} 
+                    minWidth={992} 
+                    entry_id={this.props.entry_id}
+                    onClick={this.openModal} 
+                    content='Delete'
+                    negative
+                />
+                <Responsive 
+                    as={Button} 
+                    maxWidth={991} 
+                    entry_id={this.props.entry_id} 
+                    onClick={this.openModal} 
+                    negative 
+                    icon='delete'
+                />
                 <Modal open={this.modalOpen} onClose={this.closeModal}>
                     <Header>
                         Delete Student Data

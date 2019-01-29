@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container,
-  Grid
+  Grid, Responsive
 } from 'semantic-ui-react';
 import { observable } from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -24,17 +24,19 @@ class App extends Component {
 
   @observer
   render() {
+    if (this.loginState()) this.props.FBStore.loadServerData();
+    
     const loggedin = (
       <Container>
         <Title />
         <Grid>
           <Grid.Row columns={2}>
-            <Grid.Column width={12}>
+            <Grid.Column computer={12} mobile={16} tablet={16}>
               <StudentTable />
             </Grid.Column>
-            <Grid.Column width={4}>
+            <Responsive as={Grid.Column} width={4} minWidth={992}>
               <AddStudent />
-            </Grid.Column>
+            </Responsive>
           </Grid.Row>
         </Grid>
       </Container>

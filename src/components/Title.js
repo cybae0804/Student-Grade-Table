@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
 import {
-  Dropdown,
+  Responsive,
   Menu,
 } from 'semantic-ui-react'
 
@@ -35,10 +35,13 @@ class TopMenu extends Component {
     render() {
         return (
             <div className="topMenuContainer">
-                <Menu fixed='top' inverted>
-                    <Menu.Item header>
+                <Menu inverted>
+                    <Responsive as={Menu.Item} minWidth={930}>
                         <h2>Student Grade Table</h2>
-                    </Menu.Item>
+                    </Responsive>
+                    <Responsive as={Menu.Item} maxWidth={929}>
+                        <h2>SGT</h2>
+                    </Responsive>
                     <Menu.Item>
                         Average: {this.avgGrade}
                     </Menu.Item>
