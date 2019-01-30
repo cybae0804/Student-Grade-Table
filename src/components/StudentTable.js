@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
-import { Table } from 'semantic-ui-react';
+import { Table, Message } from 'semantic-ui-react';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
 
 @inject('FBStore')
+@observer
 class StudentTable extends Component {
   
   constructor(props) {
@@ -42,11 +43,19 @@ class StudentTable extends Component {
     }
   }
 
-  @observer
+  noData = () => {
+    return (
+      <Message warning>
+        <Message.Header>No data to display</Message.Header>
+        <p>Please add a student to start using the table.</p>
+      </Message>
+    );
+  }
+
   render() {
     const {column, direction} = this.sortState;
 
-    return (
+    return this.sortedData.length ? (
       <Table size='small' celled striped columns='4' color='black' inverted sortable unstackable>
         <Table.Header>
           <Table.Row>
@@ -83,7 +92,7 @@ class StudentTable extends Component {
           }
         </Table.Body>
       </Table>
-    )
+    ) : this.noData();
   }
 }
 

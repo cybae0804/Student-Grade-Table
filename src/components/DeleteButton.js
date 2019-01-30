@@ -25,8 +25,10 @@ class DeleteButton extends Component {
         this.modalOpen = false;
     } 
     
+    @action
     deleteBtnHandler = () => {
         this.props.FBStore.deleteStudentFromServer(this.props.entry_id);
+        this.closeModal();
     }
     
     @observer

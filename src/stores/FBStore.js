@@ -21,7 +21,7 @@ class FBStore {
             this.user = null;
             this.studentData = {};
           }
-        }) ;
+        });
     }
 
     @observable
@@ -30,7 +30,7 @@ class FBStore {
     @observable 
     user = null;
   
-    initializeFirebaseDB() {
+    initializeFirebaseDB = () => {
       const fb = firebase.initializeApp({
         apiKey: process.env.REACT_APP_API_KEY,
         authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -47,17 +47,18 @@ class FBStore {
     //
     // DATABASE
     //
-    @action
-    loadServerData() {
+    loadServerData = () => {
       const stdref = this.db.ref(`${this.user.uid}/students/`);
       stdref.on('value', snapshot => {
         if (snapshot.val()){
           this.studentData = snapshot.val();
+        } else if (snapshot.val() === null){
+          this.studentData = {};
         }
       });
     }
   
-    addStudentToServer(name, course, grade) {
+    addStudentToServer = (name, course, grade) => {
       const stdref = this.db.ref(`/${this.user.uid}/students/`);
       const key = stdref.push().key;
       stdref.child(key).set({
@@ -65,15 +66,15 @@ class FBStore {
         name: name,
         grade: grade,
         entry_id: key
-      })
+      });
     }
   
-    deleteStudentFromServer(entry_id){
+    deleteStudentFromServer = (entry_id) => {
       const stdref = this.db.ref(`/${this.user.uid}/students/`);
       stdref.child(entry_id).remove();
     }
   
-    updateServerData(entry_id, name, course, grade) {
+    updateServerData = (entry_id, name, course, grade) => {
       const stdref = this.db.ref(`/${this.user.uid}/students/`);
       stdref.child(entry_id).update({
         name: name,

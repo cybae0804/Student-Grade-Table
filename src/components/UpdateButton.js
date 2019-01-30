@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import {
-    Form, Modal, Header, Button, Message, Responsive, Icon
+    Form, Modal, Header, Button, Message, Responsive
 } from 'semantic-ui-react';
 
 @inject('FBStore')
@@ -69,8 +69,8 @@ class UpdateButton extends Component {
         if (this.checkInput()){
             this.props.FBStore.updateServerData(
                 this.updateData.entry_id, 
-                this.updateData.name, 
-                this.updateData.course, 
+                this.updateData.name.trim(), 
+                this.updateData.course.trim(), 
                 Number(this.updateData.grade)
             );
       

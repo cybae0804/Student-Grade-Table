@@ -4,7 +4,6 @@ import {
   Button,
   Header,
   Message,
-  Responsive
 } from 'semantic-ui-react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -50,18 +49,19 @@ class AddStudent extends Component {
   submitBtnHandler = () => {
     if (this.checkInput()){
       this.props.FBStore.addStudentToServer(
-        this.inputFields.name, 
-        this.inputFields.course, 
+        this.inputFields.name.trim(), 
+        this.inputFields.course.trim(), 
         Number(this.inputFields.grade)
       );
   
       this.clearInputFields();
+      if (this.props.closeModal) this.props.closeModal();
     }
   }
 
   @action
   checkInput = () => {
-    if (this.inputFields.name === ''){
+    if (this.inputFields.name.trim() === ''){
       this.nameError.error = true;
       this.nameError.msg = "Name cannot be empty";
     } else {
@@ -69,7 +69,7 @@ class AddStudent extends Component {
       this.nameError.msg = null;
     }
     
-    if (this.inputFields.course === ''){
+    if (this.inputFields.course.trim() === ''){
       this.courseError.error = true;
       this.courseError.msg = "Course cannot be empty";
     } else {
@@ -77,7 +77,7 @@ class AddStudent extends Component {
       this.courseError.msg = null;
     }
     
-    if (this.inputFields.grade === ''){
+    if (this.inputFields.grade.trim() === ''){
       this.gradeError.error = true;
       this.gradeError.msg = "Grade cannot be empty";
     } else if (isNaN(Number(this.inputFields.grade))){

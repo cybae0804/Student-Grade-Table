@@ -4,7 +4,7 @@ import {
   Grid, Responsive,
   Button, Modal
 } from 'semantic-ui-react';
-import { observable } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import StudentTable from './StudentTable';
 import AddStudent from './AddStudent';
@@ -13,21 +13,33 @@ import Title from './Title.js';
 import '../assets/css/App.css';
 
 @inject ('FBStore')
+@observer
 class App extends Component {
   constructor(props){
     super(props);
   }
 
-  @observable
-  loginState = () =>{
+  @computed
+  get loginState() {
     return this.props.FBStore.user;
   }
 
-  @observer
-  render() {
-    if (this.loginState()) this.props.FBStore.loadServerData();
+  @observable
+  modalOpen = false;
 
-    const loggedin = (
+  @action
+  closeModal = () => {
+    this.modalOpen = false;
+  }
+
+  @action
+  openModal = () => {
+    this.modalOpen = true;
+  }
+
+  @computed
+  get loggedin() {
+    return (
       <Container>
         <Title />
         <Grid>
@@ -41,19 +53,22 @@ class App extends Component {
           </Grid.Row>
         </Grid>
         <Responsive 
-          as={Modal} 
-          trigger={<Button primary className='rAddStudentButton'>Add Student</Button>}
-          maxWidth={991}
+          as={Modal}
           closeIcon
+          trigger={<Button primary open={this.modalOpen} onClick={this.openModal} className='rAddStudentButton'>Add Student</Button>}
+          maxWidth={991}
+          open={this.modalOpen}
+          onClose={this.closeModal}
         >
           <Modal.Content>
-            <AddStudent/>
+            <AddStudent closeModal={this.closeModal}/>
           </Modal.Content>
         </Responsive>
       </Container>
-    );
-    
-    return this.loginState() ? loggedin : <Registration />;
+  )};
+
+  render() {
+    return this.loginState ? this.loggedin : <Registration />;
   }
 }
 
