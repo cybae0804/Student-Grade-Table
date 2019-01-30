@@ -17,10 +17,10 @@ QoL: Delete row confirmation (modal)
 
 QoL: Input verification
 
+Responsive Design
+
 ## To Do
 QoL: User authentication error notification
 
-Responsive Design
-
 ## Libraries Used
-React, Semantic-UI-React, Mobx, Firebase for auth and database
+React, Semantic-UI-React, Mobx, Firebase for auth and realtime database
