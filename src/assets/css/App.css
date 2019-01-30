@@ -9,5 +9,9 @@
 }
 
 .topMenuContainer {
-  height: 10vh;
+  margin-bottom: 3vh;
+}
+
+.rAddStudentButton {
+  margin-top: 3vh !important;
 }

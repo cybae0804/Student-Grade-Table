@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Container,
-  Grid, Responsive
+  Grid, Responsive,
+  Button, Modal
 } from 'semantic-ui-react';
 import { observable } from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -25,7 +26,7 @@ class App extends Component {
   @observer
   render() {
     if (this.loginState()) this.props.FBStore.loadServerData();
-    
+
     const loggedin = (
       <Container>
         <Title />
@@ -39,6 +40,16 @@ class App extends Component {
             </Responsive>
           </Grid.Row>
         </Grid>
+        <Responsive 
+          as={Modal} 
+          trigger={<Button primary className='rAddStudentButton'>Add Student</Button>}
+          maxWidth={991}
+          closeIcon
+        >
+          <Modal.Content>
+            <AddStudent/>
+          </Modal.Content>
+        </Responsive>
       </Container>
     );
     

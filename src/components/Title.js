@@ -36,10 +36,10 @@ class TopMenu extends Component {
         return (
             <div className="topMenuContainer">
                 <Menu inverted>
-                    <Responsive as={Menu.Item} minWidth={930}>
+                    <Responsive as={Menu.Item} minWidth={768}>
                         <h2>Student Grade Table</h2>
                     </Responsive>
-                    <Responsive as={Menu.Item} maxWidth={929}>
+                    <Responsive as={Menu.Item} maxWidth={767}>
                         <h2>SGT</h2>
                     </Responsive>
                     <Menu.Item>
