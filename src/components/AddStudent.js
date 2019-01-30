@@ -46,7 +46,9 @@ class AddStudent extends Component {
   }
 
   @action
-  submitBtnHandler = () => {
+  submitBtnHandler = (e) => {
+    e.preventDefault();
+
     if (this.checkInput()){
       this.props.FBStore.addStudentToServer(
         this.inputFields.name.trim(), 
