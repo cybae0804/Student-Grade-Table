@@ -5,7 +5,7 @@ import {
     Form, Modal, Header, Button, Message, Responsive
 } from 'semantic-ui-react';
 
-@inject('FBStore')
+@inject('Firebase')
 class UpdateButton extends Component {
 
     constructor(props){
@@ -45,7 +45,7 @@ class UpdateButton extends Component {
     openModal = event => {
         this.modalOpen = true;
 
-        const row = this.props.FBStore.studentData[event.currentTarget.getAttribute('entry_id')];
+        const row = this.props.Firebase.studentData[event.currentTarget.getAttribute('entry_id')];
 
         this.updateData.name = row.name;
         this.updateData.course = row.course;
@@ -67,7 +67,7 @@ class UpdateButton extends Component {
     @action
     submitBtnHandler = () => {
         if (this.checkInput()){
-            this.props.FBStore.updateServerData(
+            this.props.Firebase.updateServerData(
                 this.updateData.entry_id, 
                 this.updateData.name.trim(), 
                 this.updateData.course.trim(), 

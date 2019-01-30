@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container,
-  Grid, Responsive,
-  Button, Modal
+  Container, Grid, Responsive, Button, Modal
 } from 'semantic-ui-react';
 import { observable, action, computed } from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -12,7 +10,7 @@ import Registration from './Registration';
 import Title from './Title.js';
 import '../assets/css/App.css';
 
-@inject ('FBStore')
+@inject ('Firebase')
 @observer
 class App extends Component {
   constructor(props){
@@ -21,7 +19,7 @@ class App extends Component {
 
   @computed
   get loginState() {
-    return this.props.FBStore.user;
+    return this.props.Firebase.user;
   }
 
   @observable

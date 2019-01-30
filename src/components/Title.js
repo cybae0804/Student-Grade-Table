@@ -1,12 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { computed } from 'mobx';
 import { observer, inject } from 'mobx-react';
-import {
-  Responsive,
-  Menu,
-} from 'semantic-ui-react'
+import { Responsive, Menu } from 'semantic-ui-react';
 
-@inject('FBStore')
+@inject('Firebase')
 class TopMenu extends Component {
 
     constructor(props) {
@@ -14,7 +11,7 @@ class TopMenu extends Component {
     }
 
     signOutHandler = () => {
-        this.props.FBStore.signOut();
+        this.props.Firebase.signOut();
     }
 
 
@@ -22,13 +19,13 @@ class TopMenu extends Component {
     get avgGrade() {
         let sum = 0;
 
-        if (Object.keys(this.props.FBStore.studentData).length === 0) return sum;
+        if (Object.keys(this.props.Firebase.studentData).length === 0) return sum;
 
-        for (let key in this.props.FBStore.studentData){
-            sum += Number(this.props.FBStore.studentData[key].grade); 
+        for (let key in this.props.Firebase.studentData){
+            sum += Number(this.props.Firebase.studentData[key].grade); 
         }
 
-        return Math.round(sum / Object.keys(this.props.FBStore.studentData).length);
+        return Math.round(sum / Object.keys(this.props.Firebase.studentData).length);
     };
 
     @observer

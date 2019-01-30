@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import {
-  Form,
-  Button,
-  Header,
-  Message,
+  Form, Button, Header, Message,
 } from 'semantic-ui-react';
 import { observable, action, computed} from 'mobx';
 import { observer, inject } from 'mobx-react';
 
-@inject('FBStore')
+@inject('Firebase')
 class AddStudent extends Component {
   
   constructor(props) {
@@ -50,7 +47,7 @@ class AddStudent extends Component {
     e.preventDefault();
 
     if (this.checkInput()){
-      this.props.FBStore.addStudentToServer(
+      this.props.Firebase.addStudentToServer(
         this.inputFields.name.trim(), 
         this.inputFields.course.trim(), 
         Number(this.inputFields.grade)

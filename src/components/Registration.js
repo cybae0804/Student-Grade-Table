@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { observable, action, computed} from 'mobx';
+import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 
 
-@inject('FBStore')
+@inject('Firebase')
 class Registration extends Component {
     
     constructor(props) {
@@ -24,12 +24,12 @@ class Registration extends Component {
 
     @action
     registerBtnHandler = () => {
-        this.props.FBStore.registerUser(this.formInput.username, this.formInput.password);
+        this.props.Firebase.registerUser(this.formInput.username, this.formInput.password);
     }
 
     @action
     loginBtnHandler = () => {
-        this.props.FBStore.loginUser(this.formInput.username, this.formInput.password);
+        this.props.Firebase.loginUser(this.formInput.username, this.formInput.password);
     }
 
     @observer

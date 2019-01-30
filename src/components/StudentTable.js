@@ -5,7 +5,7 @@ import { Table, Message } from 'semantic-ui-react';
 import UpdateButton from './UpdateButton';
 import DeleteButton from './DeleteButton';
 
-@inject('FBStore')
+@inject('Firebase')
 @observer
 class StudentTable extends Component {
   
@@ -15,8 +15,8 @@ class StudentTable extends Component {
 
   @computed
   get sortedData() {
-    return Object.keys(this.props.FBStore.studentData).map(key => 
-    this.props.FBStore.studentData[key]).sort((a, b) => {
+    return Object.keys(this.props.Firebase.studentData).map(key => 
+    this.props.Firebase.studentData[key]).sort((a, b) => {
       if (a[this.sortState.column] < b[this.sortState.column]){
         return this.sortState.direction === 'ascending' ? -1 : 1;
       } else if (a[this.sortState.column] > b[this.sortState.column]){
