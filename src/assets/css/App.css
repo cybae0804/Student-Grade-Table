@@ -15,3 +15,11 @@
 .rAddStudentButton {
   margin-top: 3vh !important;
 }
+
+.noClick {
+  cursor: default !important;
+}
+
+.noClick:hover {
+  background-color: initial !important;
+}

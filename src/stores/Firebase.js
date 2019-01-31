@@ -14,6 +14,8 @@ class Firebase {
     this.initializeFirebaseDB();
 
     firebase.auth().onAuthStateChanged(user => {
+      this.errorMessage = null;
+
       if (user){
         this.user = user;
         this.loadServerData(this.user.uid);
@@ -92,7 +94,6 @@ class Firebase {
   @action
   registerUser = (email, password) => {
     this.auth.createUserWithEmailAndPassword(email, password).catch(error => {
-      const errorCode = error.code;
       this.errorMessage = error.message;
     });
   }
@@ -100,7 +101,6 @@ class Firebase {
   @action
   loginUser = (email, password) => {
     this.auth.signInWithEmailAndPassword(email, password).catch(error => {
-      const errorCode = error.code;
       this.errorMessage = error.message;
     });
   }
