@@ -30,6 +30,9 @@ class Firebase {
   @observable 
   user = null;
   
+  @observable
+  errorMessage;
+
   initializeFirebaseDB = () => {
     const fb = firebase.initializeApp({
       apiKey: process.env.REACT_APP_API_KEY,
@@ -86,23 +89,19 @@ class Firebase {
   //
   // AUTH
   //
+  @action
   registerUser = (email, password) => {
     this.auth.createUserWithEmailAndPassword(email, password).catch(error => {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      
-      console.error(`errorCode: ${errorCode}`);
-      console.error(`errorMessage: ${errorMessage}`);
+      this.errorMessage = error.message;
     });
   }
 
+  @action
   loginUser = (email, password) => {
     this.auth.signInWithEmailAndPassword(email, password).catch(error => {
       const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.error(`errorCode: ${errorCode}`);
-      console.error(`errorMessage: ${errorMessage}`);
+      this.errorMessage = error.message;
     });
   }
 

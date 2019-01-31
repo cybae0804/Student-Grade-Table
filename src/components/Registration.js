@@ -32,6 +32,10 @@ class Registration extends Component {
         this.props.Firebase.loginUser(this.formInput.username, this.formInput.password);
     }
 
+    guestLoginHandler = () => {
+        this.props.Firebase.loginUser('guest@guest.com', 'password');
+    }
+
     @observer
     render() {
         return (
@@ -63,6 +67,11 @@ class Registration extends Component {
                             <Grid.Column width={8}>
                                 <Button color='black' fluid size='large' onClick={this.registerBtnHandler}>
                                     Register
+                                </Button>
+                            </Grid.Column>
+                            <Grid.Column width={16}>
+                                <Button color='black' fluid size='large' onClick={this.registerBtnHandler}>
+                                    Log in as a guest
                                 </Button>
                             </Grid.Column>
                         </Grid>
