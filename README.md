@@ -13,6 +13,8 @@ User registration/login
 
 Different tables for different accounts
 
+QoL: User authentication error notification
+
 QoL: Delete row confirmation (modal)
 
 QoL: Input verification
@@ -20,7 +22,7 @@ QoL: Input verification
 Responsive Design
 
 ## To Do
-QoL: User authentication error notification
+
 
 ## Libraries Used
 React, Semantic-UI-React, Mobx, Firebase for auth and realtime database
