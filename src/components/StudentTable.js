@@ -74,7 +74,7 @@ class StudentTable extends Component {
             >
               Grade
             </Table.HeaderCell>
-            <Table.HeaderCell collapsing>Options</Table.HeaderCell>
+            <Table.HeaderCell className='noClick' collapsing>Options</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

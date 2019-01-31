@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Segment, Message } from 'semantic-ui-react';
 
 
 @inject('Firebase')
@@ -22,14 +22,16 @@ class Registration extends Component {
         this.formInput[event.target.name] = event.target.value;
     }
 
-    @action
     registerBtnHandler = () => {
         this.props.Firebase.registerUser(this.formInput.username, this.formInput.password);
     }
 
-    @action
     loginBtnHandler = () => {
         this.props.Firebase.loginUser(this.formInput.username, this.formInput.password);
+    }
+
+    guestLoginHandler = () => {
+        this.props.Firebase.loginUser('guest@guest.com', 'password');
     }
 
     @observer
@@ -48,12 +50,16 @@ class Registration extends Component {
                     <Header as='h2' textAlign='center'>
                     Log-in to your account
                     </Header>
-                    <Form size='large'>
+                    <Form size='large' error>
                     <Segment>
                         <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' 
                         value={this.formInput.username} onChange={this.handleChange} name='username'/>
                         <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password'
                         type='password' value={this.formInput.password} onChange={this.handleChange} name='password'/>
+                        <Message
+                            error
+                            content={this.props.Firebase.errorMessage}
+                        />
                         <Grid>
                             <Grid.Column width={8}>
                                 <Button color='black' fluid size='large' onClick={this.loginBtnHandler}>
@@ -63,6 +69,11 @@ class Registration extends Component {
                             <Grid.Column width={8}>
                                 <Button color='black' fluid size='large' onClick={this.registerBtnHandler}>
                                     Register
+                                </Button>
+                            </Grid.Column>
+                            <Grid.Column width={16}>
+                                <Button color='black' fluid size='large' onClick={this.guestLoginHandler}>
+                                    Log in as a guest
                                 </Button>
                             </Grid.Column>
                         </Grid>
