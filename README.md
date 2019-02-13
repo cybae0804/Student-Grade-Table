@@ -1,28 +1,27 @@
 # StudentGradeTable
 
-React + Firebase Project
+React + Firebase CMS Project
 
-Hosted [Here](https://sgt-78300.firebaseapp.com/)
+## Hosted 
 
-## Done
-CRUD
+[Here](https://sgt.cybae.me)
 
-Sorting by column
+## Features
+* Basic CRUD operations
 
-User registration/login
+* Sorting by column
 
-Different tables for different accounts
+* User registration/login
 
-QoL: User authentication error notification
+* Different tables for different accounts
 
-QoL: Delete row confirmation (modal)
+* QoL: User authentication error notification
 
-QoL: Input verification
+* QoL: Delete row confirmation (modal)
 
-Responsive Design
+* QoL: Input verification
 
-## To Do
+* Mobile Responsive Design
 
-
-## Libraries Used
+## Built With
 React, Semantic-UI-React, Mobx, Firebase for auth and realtime database
