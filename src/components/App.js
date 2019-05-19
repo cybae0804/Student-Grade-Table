@@ -3,7 +3,8 @@ import {
   Container, Grid, Responsive, Button, Modal
 } from 'semantic-ui-react';
 import { observable, action, computed } from 'mobx';
-import { observer, inject } from 'mobx-react';
+import { observer, inject, Provider } from 'mobx-react';
+import Firebase from '../stores/Firebase.js';
 import StudentTable from './StudentTable';
 import AddStudent from './AddStudent';
 import Registration from './Registration';
@@ -66,4 +67,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default () => <Provider Firebase={new Firebase()}><App /></Provider>;
