@@ -8,11 +8,6 @@ import DeleteButton from './DeleteButton';
 @inject('Firebase')
 @observer
 class StudentTable extends Component {
-  
-  constructor(props) {
-    super(props);
-  }
-
   @computed
   get sortedData() {
     return Object.keys(this.props.Firebase.studentData).map(key => 

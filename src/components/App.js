@@ -13,10 +13,6 @@ import '../assets/css/App.css';
 @inject ('Firebase')
 @observer
 class App extends Component {
-  constructor(props){
-    super(props);
-  }
-
   @computed
   get loginState() {
     return this.props.Firebase.user;

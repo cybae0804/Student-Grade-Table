@@ -7,11 +7,6 @@ import {
 
 @inject('Firebase')
 class DeleteButton extends Component {
-
-	constructor(props){
-		super(props);
-	}
-
 	@observable 
 	modalOpen = false;
 

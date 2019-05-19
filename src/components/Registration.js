@@ -6,11 +6,6 @@ import { Button, Form, Grid, Header, Segment, Message } from 'semantic-ui-react'
 
 @inject('Firebase')
 class Registration extends Component {
-    
-    constructor(props) {
-        super(props);
-    }
-
     @observable
     formInput = {
         username: '',

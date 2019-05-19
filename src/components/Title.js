@@ -5,15 +5,9 @@ import { Responsive, Menu } from 'semantic-ui-react';
 
 @inject('Firebase')
 class TopMenu extends Component {
-
-    constructor(props) {
-        super(props);
-    }
-
     signOutHandler = () => {
         this.props.Firebase.signOut();
     }
-
 
     @computed
     get avgGrade() {

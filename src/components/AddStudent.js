@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import {
   Form, Button, Header, Message,
 } from 'semantic-ui-react';
-import { observable, action, computed} from 'mobx';
+import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react';
 
 @inject('Firebase')
 class AddStudent extends Component {
-  
-  constructor(props) {
-    super(props);
-  }
-
   @observable
   inputFields = {
     name: '',
