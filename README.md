@@ -6,6 +6,7 @@ React + Firebase CMS Project
 
 [Here](https://sgt.cybae.me)
 
+![Preview](https://i.imgur.com/5Q0ojvR.png)
 ## Features
 * Basic CRUD operations
 
